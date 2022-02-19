@@ -101,6 +101,7 @@ public class Main {
     }
 
 
+    //--add-opens=java.desktop/java.awt.peer=ALL-UNNAMED --add-opens=java.desktop/sun.awt=ALL-UNNAMED --add-opens=jdk.incubator.foreign/jdk.internal.foreign=ALL-UNNAMED --add-modules=jdk.incubator.foreign --enable-native-access=ALL-UNNAMED -Djava.library.path=D:\kaifa_environment\opencv\opencv_all_build\java\opencv452;
     public static void main(String[] args) {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         try {
