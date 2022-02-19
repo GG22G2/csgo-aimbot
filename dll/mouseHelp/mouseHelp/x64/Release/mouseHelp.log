@@ -1,0 +1,7 @@
+﻿  main.cpp
+    正在创建库 D:\kaifa_environment\code\C\mouseHelp\x64\Release\mouseHelp.lib 和对象 D:\kaifa_environment\code\C\mouseHelp\x64\Release\mouseHelp.exp
+  正在生成代码
+  Previous IPDB not found, fall back to full compilation.
+  All 14 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  已完成代码的生成
+  mouseHelp.vcxproj -> D:\kaifa_environment\code\C\mouseHelp\x64\Release\mouseHelp.dll

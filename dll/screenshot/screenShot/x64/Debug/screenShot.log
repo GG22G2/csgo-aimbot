@@ -1,0 +1,9 @@
+﻿  pch.cpp
+  dllmain.cpp
+  empty.cpp
+  templmatch.cpp
+D:\kaifa_environment\code\C\screenShot\screenShot\templmatch.cpp(127,25): warning C4244: “=”: 从“unsigned __int64”转换到“int”，可能丢失数据
+D:\kaifa_environment\code\C\screenShot\screenShot\templmatch.cpp(114,10): warning C4101: “targetIndex”: 未引用的局部变量
+  正在生成代码...
+    正在创建库 D:\kaifa_environment\code\C\screenShot\x64\Debug\screenShot.lib 和对象 D:\kaifa_environment\code\C\screenShot\x64\Debug\screenShot.exp
+  screenShot.vcxproj -> D:\kaifa_environment\code\C\screenShot\x64\Debug\screenShot.dll

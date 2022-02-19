@@ -1,0 +1,2 @@
+yolov5.cpp基于tensorrtx项目中yolov5.cpp文件，并将预测部分代码整理成detecte_init，detecte_inference，detecte_release
+三个函数，方便做成dll做预测。
