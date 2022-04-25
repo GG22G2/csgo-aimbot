@@ -56,9 +56,9 @@ public class MouseCorrectThread implements Runnable {
 
             distance = Math.sqrt(location.width * location.width + location.height * location.height);
             xMin = (location.width / 2) * 0.8;
-            xMax = distance * 1;
+            xMax = distance * 3;
             xPixel = location.centerX - cx;
-            yPixel = location.centerY - cy;
+            yPixel = location.centerY - (location.height / 10 * 3)  - cy ;
 
             //根据相对移动距离，判断是否需要修正
             //当前镜头位置到目标的x和y轴距离
@@ -71,16 +71,16 @@ public class MouseCorrectThread implements Runnable {
 
             //鼠标侧键按下
             if (ulButtons == 256) {
-                zimiao((int) ((xPixel) * 1.71), (int) ((yPixel) * Config.yZoom));
+                zimiao((int) ((xPixel) * 1.40), (int) ((yPixel) * Config.yZoom));
             } else if (ulButtons == 1) {
 
-                if (mouseXMove >= xMin && mouseXMove <= xMax && mouseYMove < 20) {
+                if (mouseXMove >= xMin && mouseXMove <= xMax && mouseYMove < 50) {
                     mouseXMove = (xPixel) < 0 ? -mouseXMove : mouseXMove;
                     mouseYMove = (yPixel) < 0 ? -mouseYMove : mouseYMove;
 
                     System.out.println("distance:" + (int) distance + ",移动:" + mouseXMove + "," + mouseYMove);
                     try {
-                        simulateMove(mouseXMove, mouseYMove, xMin, xMax, 0.4, false);
+                        simulateMove(mouseXMove, mouseYMove, xMin, xMax, 1, false);
                         // mouse_move.invokeExact((byte) x, (byte) y, (byte) 0);
                     } catch (Throwable e) {
                         e.printStackTrace();
@@ -126,7 +126,7 @@ public class MouseCorrectThread implements Runnable {
                     if (ulButtons == 1 || ulButtons == 256) {
                         long curTime = System.currentTimeMillis();
                         //每一秒最多辅助一次
-                        if ((curTime-lastHelp)>1000){
+                        if ((curTime-lastHelp)>300){
                             onButtonPress(ulButtons);
                             lastHelp=curTime;
                         }
@@ -153,10 +153,10 @@ public class MouseCorrectThread implements Runnable {
         try {
 
             int x = 0, y = 0;
-            for (int i = 0; i < 15; i++) {
-                x += (byte) (mouseXMove * 0.066);
-                y += (byte) (mouseYMove * 0.066);
-                mouse_move.invokeExact((byte) (mouseXMove * 0.067), (byte) (mouseYMove * 0.067), (byte) 0);
+            for (int i = 0; i < 10; i++) {
+                x += (byte) (mouseXMove * 0.1);
+                y += (byte) (mouseYMove * 0.1);
+                mouse_move.invokeExact((byte) (mouseXMove * 0.1), (byte) (mouseYMove * 0.1), (byte) 0);
                 Thread.sleep(2);
             }
             mouse_move.invokeExact((byte) (mouseXMove - x), (byte) (mouseYMove - y), (byte) 0);
@@ -164,7 +164,7 @@ public class MouseCorrectThread implements Runnable {
 
             //开枪
             mouse_move.invokeExact((byte) 0, (byte) 0, (byte) 1);
-            Thread.sleep(325);
+            Thread.sleep(500);
             //释放鼠标
             mouse_move.invokeExact((byte) 0, (byte) 0, (byte) 0);
 
@@ -175,10 +175,28 @@ public class MouseCorrectThread implements Runnable {
     }
 
 
+    /**
+     *
+     * 分析鼠标移动轨迹
+     *
+     * 54毫秒，移动了360像素，对应鼠标移动507，平均1毫秒移动9.3
+     *
+     * 
+     * */
     public void simulateMove(int x, int y, double xMin, double xMax, double averSpeed, boolean simulate) {
         try {
             if (!simulate) {
-                mouse_move.invokeExact((byte) x, (byte) y, (byte) 0);
+                int mouseXMove=x, mouseYMove=y;
+                x = 0;
+                y = 0;
+                for (int i = 0; i < 3; i++) {
+                    x += (byte) (mouseXMove * 0.33);
+                    y += (byte) (mouseYMove * 0.33);
+                    mouse_move.invokeExact((byte) (mouseXMove * 0.33), (byte) (mouseYMove * 0.33), (byte) 0);
+                    Thread.sleep(2);
+                }
+                mouse_move.invokeExact((byte) (mouseXMove - x), (byte) (mouseYMove - y), (byte) 0);
+
                 return;
             }
             int sleep = 2;
@@ -190,16 +208,7 @@ public class MouseCorrectThread implements Runnable {
             y = Math.abs(y);
 
 
-            if (averSpeed < 0.2) {
-                return;
-            }
-
-
             x = (int) (x - 6 * averSpeed);
-
-            if (averSpeed < 0.4) {
-                averSpeed = 0.4;
-            }
 
             double useTime = x / averSpeed;
             double moveC = useTime / sleep;

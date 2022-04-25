@@ -47,14 +47,14 @@ public class MouseMoveListenerThread implements Runnable {
 //                int usButtonFlags = MemoryAccess.getIntAtIndex(memorySegment, 7);
 
 
-                long time = System.currentTimeMillis();
+   //             long time = System.currentTimeMillis();
 
-                //    System.out.println( x + "," + y + "," + ulButtons);
+                    System.out.println( x + "," + y + "," + ulButtons);
 
-                tracks.updateTrack(time, x, y, ulButtons);
-                synchronized (tracks) {
-                    tracks.notify();
-                }
+               // tracks.updateTrack(time, x, y, ulButtons);
+//                synchronized (tracks) {
+//                    tracks.notify();
+//                }
 
             }
         } catch (Throwable e) {

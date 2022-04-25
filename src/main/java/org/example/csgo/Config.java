@@ -7,7 +7,7 @@ package org.example.csgo;
 public class Config {
 
     //屏幕缩放， 对应window10中 设置->系统->显示->缩放与布局, 因为我设置的125% ，所以scale是0.8
-    final static public double scale = 0.8;
+    final static public double scale = 1 ;
 
 
     //警匪的分类对应的值
@@ -46,7 +46,7 @@ public class Config {
      * */
     final static public double xZoom = 1.41;
     //垂直方向  这个值是大概猜测，不准确
-    final static public double yZoom = 0.61;
+    final static public double yZoom = 1.4;
 
     //分辨率
     final static public int SOURCE_WIDTH = 1920;

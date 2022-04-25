@@ -3,6 +3,7 @@ package org.example.csgo;
 import org.example.csgo.thread.CaptureThread;
 import org.example.csgo.thread.DetectThread;
 import org.example.csgo.thread.MouseCorrectThread;
+import org.example.csgo.thread.MouseMoveListenerThread;
 import org.example.csgo.wrapper.CaptureDLLWrapper;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -60,14 +61,20 @@ public class Main {
     }
 
 
-    public static void main13131(String[] args) throws Throwable {
+    public static void main23(String[] args) throws Throwable {
 
-        //Tracks track = new Tracks();
-        //new Thread(new MouseMoveListenerThread(track)).start();
+        Tracks track = new Tracks();
+        new Thread(new MouseMoveListenerThread(track)).start();
         Thread.sleep(1000);
 
+
+        mouseMove.invoke(100,0);
+
         mouse_open.invoke();
-        mouse_move.invoke((byte) 100, (byte) 100, (byte) 0);
+       // mouse_move.invoke((byte) 100, (byte) 0, (byte) 0);
+        Thread.sleep(1000);
+        int x=-100;
+        mouse_move.invoke((byte) x, (byte) 0, (byte) 0);
    //     mouse_move.invokeExact((byte) 0, (byte) 0, (byte) 1);
 
 //        // mouse_move.invoke((byte) 100, (byte) 100, (byte) 0);
@@ -100,7 +107,6 @@ public class Main {
 
     }
 
-
     //--add-opens=java.desktop/java.awt.peer=ALL-UNNAMED --add-opens=java.desktop/sun.awt=ALL-UNNAMED --add-opens=jdk.incubator.foreign/jdk.internal.foreign=ALL-UNNAMED --add-modules=jdk.incubator.foreign --enable-native-access=ALL-UNNAMED -Djava.library.path=D:\kaifa_environment\opencv\opencv_all_build\java\opencv452;
     public static void main(String[] args) {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -118,7 +124,6 @@ public class Main {
             new Thread(new CaptureThread(locations)).start();
             new Thread(new DetectThread(locations)).start();
             new Thread(new MouseCorrectThread(locations, track)).start();
-
 
             //new Thread(new MouseHelpThread(locations, robot, track)).start();
         } catch (Throwable e) {
