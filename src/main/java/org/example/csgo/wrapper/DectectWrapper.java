@@ -33,10 +33,21 @@ public class DectectWrapper {
             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, int.class, int.class),
             FunctionDescriptor.of(CLinker.C_POINTER, CLinker.C_POINTER, CLinker.C_INT, CLinker.C_INT));
 
+    public static MethodHandle detect_inferenceGpuData = CLinker.getInstance().downcallHandle(
+            SymbolLookup.loaderLookup().lookup("detect_inferenceGpuData").get(),
+            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, int.class, int.class),
+            FunctionDescriptor.of(CLinker.C_POINTER, CLinker.C_POINTER, CLinker.C_INT, CLinker.C_INT));
 
     public static MethodHandle detecte_release = CLinker.getInstance().downcallHandle(
             SymbolLookup.loaderLookup().lookup("detect_release").get(),
             MethodType.methodType(void.class),
             FunctionDescriptor.ofVoid());
+
+    public static MethodHandle cudaFreeProxy = CLinker.getInstance().downcallHandle(
+            SymbolLookup.loaderLookup().lookup("cudaFreeProxy").get(),
+            MethodType.methodType(void.class, MemoryAddress.class),
+            FunctionDescriptor.ofVoid(CLinker.C_POINTER));
+
+
 
 }

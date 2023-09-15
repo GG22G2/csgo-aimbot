@@ -5,12 +5,8 @@ import jdk.incubator.foreign.ResourceScope;
 import org.example.csgo.Config;
 import org.example.csgo.Locations;
 import org.example.csgo.wrapper.WinCaptureWrapper;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
 import org.opencv.core.Rect;
-import org.opencv.imgproc.Imgproc;
 
-import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -43,7 +39,7 @@ public class CaptureThread implements Runnable {
         MemoryAddress dateAddress = null;
         try {
             while (true) {
-                dateAddress =  init_csgo_capture();
+                dateAddress = init_csgo_capture();
 
                 if (dateAddress.toRawLongValue() == 0) {
                     Thread.sleep(20);
@@ -82,7 +78,7 @@ public class CaptureThread implements Runnable {
         int screenY = Config.SOURCE_HEIGHT / 2 - (Config.DETECT_HEIGHT / 2);
 
         ResourceScope scope = ResourceScope.newConfinedScope();
-        Mat bgrDetectImg = new Mat(Config.DETECT_WIDTH, Config.DETECT_HEIGHT, CvType.CV_8UC3);
+        // Mat bgrDetectImg = new Mat(Config.DETECT_WIDTH, Config.DETECT_HEIGHT, CvType.CV_8UC3);
 
         new Thread(new Runnable() {
             @Override
@@ -113,28 +109,30 @@ public class CaptureThread implements Runnable {
                 }
 
                 long captureEndTime = System.currentTimeMillis();
-                captureRes = (MemoryAddress) WinCaptureWrapper.game_capture_tick_cpu.invokeExact(dateAddress, 4.0f);
+                System.out.println("开始截图:"+captureEndTime);
+                captureRes = (MemoryAddress) WinCaptureWrapper.game_capture_tick_gpu.invokeExact(dateAddress, 4.0f, screenX, screenY, Config.DETECT_WIDTH, Config.DETECT_HEIGHT);
                 if (captureRes.toRawLongValue() == 0) {
                     continue;
                 }
 
 
+
                 captureCount.incrementAndGet();
 
-                ByteBuffer imageBuffer = captureRes.asSegment(1920 * 1080 * 4, scope).asByteBuffer();
-
-                //截屏返回的是四通道BGRA格式,这里转成BGR,并截取识别区域
-                Mat bgraImg = new Mat(1080, 1920, CvType.CV_8UC4, imageBuffer);
-                Rect roi = new Rect(screenX, screenY, Config.DETECT_WIDTH, Config.DETECT_HEIGHT);
-                Mat bgraImgRoi = new Mat(bgraImg, roi);
-                Imgproc.cvtColor(bgraImgRoi, bgrDetectImg, Imgproc.COLOR_BGRA2BGR);  //CSGO
-                // Imgproc.cvtColor(bgraImgRoi, bgrDetectImg, Imgproc.COLOR_RGBA2BGR);  // 守望先锋
-
-                bgraImg.release();
-                bgraImgRoi.release();
+//                ByteBuffer imageBuffer = captureRes.asSegment(1920 * 1080 * 4, scope).asByteBuffer();
+//
+//                //截屏返回的是四通道BGRA格式,这里转成BGR,并截取识别区域
+//                Mat bgraImg = new Mat(1080, 1920, CvType.CV_8UC4, imageBuffer);
+      //          Rect roi = new Rect(screenX, screenY, Config.DETECT_WIDTH, Config.DETECT_HEIGHT);
+//                Mat bgraImgRoi = new Mat(bgraImg, roi);
+//                Imgproc.cvtColor(bgraImgRoi, bgrDetectImg, Imgproc.COLOR_BGRA2BGR);  //CSGO
+//                // Imgproc.cvtColor(bgraImgRoi, bgrDetectImg, Imgproc.COLOR_RGBA2BGR);  // 守望先锋
+//
+//                bgraImg.release();
+//                bgraImgRoi.release();
 
                 //使用阻塞队列 录屏速度根据识别速度变换
-                locations.addCapture(bgrDetectImg, captureEndTime);
+                locations.addCapture(captureRes, captureEndTime);
 
 
                 waitNotify();

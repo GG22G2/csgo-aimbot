@@ -40,8 +40,8 @@ public class WinCaptureWrapper {
     );
     public static MethodHandle game_capture_tick_gpu = CLinker.getInstance().downcallHandle(
             SymbolLookup.loaderLookup().lookup("game_capture_tick_gpu").get(),
-            MethodType.methodType(MemoryAddress.class,MemoryAddress.class,float.class),
-            FunctionDescriptor.of(CLinker.C_POINTER,CLinker.C_POINTER,CLinker.C_FLOAT)
+            MethodType.methodType(MemoryAddress.class,MemoryAddress.class,float.class,int.class,int.class,int.class,int.class),
+            FunctionDescriptor.of(CLinker.C_POINTER,CLinker.C_POINTER,CLinker.C_FLOAT,CLinker.C_INT,CLinker.C_INT,CLinker.C_INT,CLinker.C_INT)
     );
     public static MethodHandle stop_game_capture = CLinker.getInstance().downcallHandle(
             SymbolLookup.loaderLookup().lookup("stop_game_capture").get(),

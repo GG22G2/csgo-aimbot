@@ -59,7 +59,7 @@ public class DetectThread implements Runnable {
             DectectWrapper.detecte_init.invoke(engineMemory.address());
             System.out.println("yolov5检查初始化成功");
             lock.unlock();
-            Mat captureRes;
+            MemoryAddress captureRes;
 
             int screenX = Config.SOURCE_WIDTH / 2 - (Config.DETECT_WIDTH / 2);
             int screenY = Config.SOURCE_HEIGHT / 2 - (Config.DETECT_HEIGHT / 2);
@@ -121,11 +121,13 @@ public class DetectThread implements Runnable {
                     Locations.CaptureRecord captureRecord = locations.nextCapture();
 
                     captureRes = captureRecord.mat;
-                    Mat showImg = captureRes;
-                    MemoryAddressImpl bgrImgAddress = new MemoryAddressImpl(null, showImg.dataAddr());
+                  //  Mat showImg = captureRes;
+                  //  MemoryAddressImpl bgrImgAddress = new MemoryAddressImpl(null, showImg.dataAddr());
 
 
-                    MemoryAddress res = (MemoryAddress) DectectWrapper.detecte_inference.invokeExact(bgrImgAddress.address(), Config.DETECT_WIDTH, Config.DETECT_HEIGHT);
+
+
+                    MemoryAddress res = (MemoryAddress) DectectWrapper.detect_inferenceGpuData.invokeExact(captureRes, Config.DETECT_WIDTH, Config.DETECT_HEIGHT);
 
                    // useTimeRecord.add(endNanos_23_104 - startNanos_23_102);
                     //todo 这个方法有时候耗时达到30毫秒以上，此时gpu占用率达到100%了
@@ -137,7 +139,11 @@ public class DetectThread implements Runnable {
                     //返回6*20个float  6个为一组  x,y,width,height,conf,classid
                     float[] rects = res.asSegment(6 * 20 * 4, scope).toFloatArray();
                     locations.update(screenX, screenY, rects, captureRecord.time);
-
+                    System.out.println("识别结束："+System.currentTimeMillis());
+                    if (locations.getCount()==0){
+                        Thread.sleep(2);
+                    }
+                    DectectWrapper.cudaFreeProxy.invokeExact(captureRes);
                     //把识别结果记录到视频里
                     //recordImageToVideo(rects, showImg, recordImageDetect);
 

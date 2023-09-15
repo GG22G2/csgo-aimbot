@@ -1,5 +1,6 @@
 package org.example.csgo;
 
+import jdk.incubator.foreign.MemoryAddress;
 import org.opencv.core.Mat;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -27,20 +28,20 @@ public class Locations {
 
     public static class CaptureRecord {
         public long time;
-        public Mat mat;
+        public MemoryAddress mat;
 
         public boolean detectTarget;
 
-        public CaptureRecord(Mat mat, long time) {
+        public CaptureRecord(MemoryAddress mat, long time) {
             this.time = time;
             this.mat = mat;
             this.detectTarget = false;
         }
     }
 
-    public void addCapture(Mat mat, long captureTime) {
+    public void addCapture(MemoryAddress address, long captureTime) {
         try {
-            detectQueue.put(new CaptureRecord(mat, captureTime));
+            detectQueue.put(new CaptureRecord(address, captureTime));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

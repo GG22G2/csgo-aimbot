@@ -102,19 +102,19 @@ public class HistoryRecord {
                         //  System.out.println(nextShotTime);
                         //开启记录模式，把识别到的都存起来
                        // result.add(record);
-                        record.mat.release();
+                        //record.mat.release();
                     } else {
-                        record.mat.release();
+                        //record.mat.release();
                         //  iterator.remove();
                     }
                 } else {
                     long nextShotTime = nextShotTime(p, record.time, times);
                     if (nextShotTime == 0) {
                         //result.add(record);
-                        record.mat.release();
+                        //record.mat.release();
                      //   System.out.println("开枪期间，没有敌人");
                     }else {
-                        record.mat.release();
+                       // record.mat.release();
                     }
 
                     //  iterator.remove();
