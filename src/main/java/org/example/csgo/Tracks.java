@@ -3,7 +3,7 @@ package org.example.csgo;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
- * @author 胡帅博
+ * @author
  * @date 2022/2/13 12:54
  */
 public class Tracks {

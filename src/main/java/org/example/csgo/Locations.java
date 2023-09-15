@@ -5,7 +5,7 @@ import org.opencv.core.Mat;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
- * @author 胡帅博
+ * @author
  * @date 2022/2/3 17:38
  */
 public class Locations {
@@ -25,13 +25,16 @@ public class Locations {
         }
     }
 
-    public class CaptureRecord {
+    public static class CaptureRecord {
         public long time;
         public Mat mat;
 
-        public CaptureRecord(Mat mat,long time ) {
+        public boolean detectTarget;
+
+        public CaptureRecord(Mat mat, long time) {
             this.time = time;
             this.mat = mat;
+            this.detectTarget = false;
         }
     }
 
@@ -44,11 +47,10 @@ public class Locations {
     }
 
 
-
     public CaptureRecord nextCapture() throws InterruptedException {
         return detectQueue.take();
-
     }
+
 
 
     public synchronized void update(int screenX, int screenY, float[] rects, long captureTime) {
@@ -96,6 +98,9 @@ public class Locations {
 
 
     public synchronized Location minDistance(int x, int y, int classId) {
+        if (classId == Config.CT_AND_T) {
+            return minDistance(x, y);
+        }
         int len = count;
         double min = Double.MAX_VALUE;
         Location minL = null;
@@ -113,6 +118,13 @@ public class Locations {
         return minL;
     }
 
+    public Location[] getLocations(){
+        return locations;
+    }
+
+    public int getCount() {
+        return count;
+    }
 
     public synchronized void clear() {
         count = 0;

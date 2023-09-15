@@ -10,7 +10,7 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 
 /**
- * @author 胡帅博
+ * @author
  * @date 2022/2/3 17:15
  */
 public class CaptureDLLWrapper {

@@ -29,10 +29,10 @@ public class CallScreenShotDLL {
     public static void main(String[] args) {
 
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        Path paths = Path.of("D:\\kaifa_environment\\code\\C\\screenShot\\x64\\Release\\screenShot.dll");
+        Path paths = Path.of("G:\\kaifa_environment\\code\\C\\screenShot\\x64\\Release\\screenShot.dll");
 
 
-        System.load("D:\\kaifa_environment\\code\\C\\screenShot\\x64\\Release\\screenShot.dll");
+        System.load("G:\\kaifa_environment\\code\\C\\screenShot\\x64\\Release\\screenShot.dll");
         MethodHandle init = CLinker.getInstance().downcallHandle(
                 SymbolLookup.loaderLookup().lookup("capture_init").get(),
                 MethodType.methodType(void.class),
