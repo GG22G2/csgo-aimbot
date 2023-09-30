@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- 编译时的编码 -->
@@ -28,10 +28,11 @@
         <dependency>
             <groupId>opencv</groupId>
             <artifactId>opencv</artifactId>
-            <systemPath>G:/kaifa_environment/opencv/opencv_all_build/java/opencv452/opencv-452.jar</systemPath>
+            <systemPath>G:/kaifa_environment/opencv/opencv_4_8/opencv/build/java/opencv-480.jar</systemPath>
             <scope>system</scope>
-            <version>4.5.2</version>
+            <version>4.8.0</version>
         </dependency>
+
     </dependencies>
 
 
@@ -43,16 +44,14 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <source>21</source>
+                    <target>21</target>
                     <compilerArgs>
-                        <arg>--add-modules=jdk.incubator.foreign</arg>
-                        <arg>--add-exports=jdk.incubator.foreign/jdk.internal.foreign=ALL-UNNAMED</arg>
-                        <arg>--add-modules=java.base</arg>
-                        <arg>--add-exports=java.base/jdk.internal.misc=ALL-UNNAMED</arg>
-                        <arg>--add-modules=java.desktop</arg>
-                        <arg>--add-exports=java.desktop/sun.awt=ALL-UNNAMED</arg>
-                        <arg>--add-exports=java.desktop/java.awt.peer=ALL-UNNAMED</arg>
+                        <arg>--enable-preview</arg>
+                        <arg>--add-exports=javafx.graphics/com.sun.javafx.tk=csgo.aimbot</arg>
+                        <arg>--add-opens=javafx.graphics/com.sun.glass.ui=csgo.aimbot</arg>
+                        <arg>--add-opens=javafx.graphics/javafx.stage=csgo.aimbot</arg>
+                        <arg>--add-opens=javafx.graphics/com.sun.javafx.tk.quantum=csgo.aimbot</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
